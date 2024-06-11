@@ -1,0 +1,132 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#map-container {
+  display: flex;
+  height: 100%;
+}
+
+/* Asegurando que el título del mapa tenga un z-index más bajo */
+.map-title {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 17px;
+    font-weight: bold;
+    color: #621132;
+    z-index: 1000; /* Asegura que esté detrás del popup */
+    text-align: center;
+    background: none;
+    margin: 0;
+    text-shadow: 3px 3px 7px rgba(255, 255, 255, 0.9); /* Agrega la sombra */
+}
+.custom-div-icon {
+  border: 2px solid #fff;
+  border-radius: 50%;
+}
+
+.map-legend {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: #666;
+  z-index: 1000;
+  background: none;
+  text-align: center;
+  margin: 0;
+}
+
+#controls {
+  width: 280px;
+  background: #6f7271;
+  padding: 10px;
+  box-shadow: 10px 0 5px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  text-align: left;
+  color: ghostwhite;
+  font-size: 10px;
+  overflow-y: auto;
+}
+
+#control-logo {
+  width: 25%;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+#search-container {
+  margin-top: 10px; /* Ajusta el espacio superior si es necesario */
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#search-box {
+  width: 90%; /* Ajusta el ancho para que se ajuste dentro del contenedor */
+  padding: 10px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box; /* Asegura que el padding y borde se incluyan en el ancho total */
+}
+
+#my-map {
+  flex-grow: 1;
+  position: relative;
+  height: 100%;
+}
+
+#consultar {
+  margin-top: 30px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px;
+  margin: 2px 0;
+  font-size: 10px;
+  font-weight: normal;
+  color: white;
+  background-color: #621132;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-align: center;
+  width: 100%;
+}
+
+.btn:hover {
+  background-color: #3E1123;
+  color: #C18F4E;
+}
+
+input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: #C18F4E;
+}
+
+input[type="checkbox"] {
+  border: 2px solid #FFFFFF;
+  background-color: #C18F4E;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #621132;
+  border-color: #FFFFFF;
+}
+
+#controls h3 {
+  font-size: 14px;
+  margin: 10px 0 5px;
+  color: #fff;
+}

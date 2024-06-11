@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Leaflet CSS desde el CDN específico -->
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <title>Mapa: Actividades Económicas en Baja California</title>
+</head>
+<body>
+    <div id="map-container">
+        <div id="controls">
+            <img src="Frame 1.png" id="control-logo" alt="Logo">
+            <div id="search-container">
+                <input type="text" id="search-box" placeholder="Buscar por nombre, actividad, etc...">
+            </div>
+            <h3>Sectores:</h3>
+            <label><input type="checkbox" name="sector" value="Industrias manufactureras" checked> Industrias manufactureras</label><br>
+            <label><input type="checkbox" name="sector" value="Información en medios masivos" checked> Información en medios masivos</label><br>
+            <label><input type="checkbox" name="sector" value="Transportes, correos y almacenamiento" checked> Transportes, correos y almacenamiento</label><br>
+            <label><input type="checkbox" name="sector" value="Servicios profesionales, científicos y técnicos" checked> Servicios profesionales, científicos y técnicos</label><br>
+            <h3>Personal:</h3>
+            <label><input type="checkbox" name="personal" value="0 a 5 personas" checked> 0 a 5 personas</label><br>
+            <label><input type="checkbox" name="personal" value="6 a 10 personas" checked> 6 a 10 personas</label><br>
+            <label><input type="checkbox" name="personal" value="11 a 30 personas" checked> 11 a 30 personas</label><br>
+            <label><input type="checkbox" name="personal" value="31 a 50 personas" checked> 31 a 50 personas</label><br>
+            <label><input type="checkbox" name="personal" value="51 a 100 personas" checked> 51 a 100 personas</label><br>
+            <label><input type="checkbox" name="personal" value="101 a 250 personas" checked> 101 a 250 personas</label><br>
+            <label><input type="checkbox" name="personal" value="251 y más personas" checked> 251 y más personas</label><br>
+            <h3>Municipio:</h3>
+            <label><input type="checkbox" name="municipio" value="Ensenada" checked> Ensenada</label><br>
+            <label><input type="checkbox" name="municipio" value="Mexicali" checked> Mexicali</label><br>
+            <label><input type="checkbox" name="municipio" value="Tecate" checked> Tecate</label><br>
+            <label><input type="checkbox" name="municipio" value="Tijuana" checked> Tijuana</label><br>
+            <label><input type="checkbox" name="municipio" value="Playas de Rosarito" checked> Playas de Rosarito</label><br>
+            <label><input type="checkbox" name="municipio" value="San Quintín" checked> San Quintín</label><br>
+            <label><input type="checkbox" name="municipio" value="San Felipe" checked> San Felipe</label><br>
+            <button id="consultar" class="btn">Consultar</button>
+            <button id="reset" class="btn">Quitar filtros</button>
+            <button id="download" class="btn">Descargar datos</button>
+        </div>
+        <div id="my-map">
+            <div class="map-title">NEARSHORING: ACTIVIDADES ECONÓMICAS DE BAJA CALIFORNIA</div>
+            <div class="map-legend">Secretaría de Economía e Innovación de Baja California. Dirección Estadística 2024. Elaborado con datos de INEGI.</div>
+        </div>
+    </div>
+    <!-- Leaflet JS desde el CDN específico -->
+    <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Tu script personalizado -->
+    <script src="script.js"></script>
+</body>
+</html>
