@@ -94,35 +94,6 @@ window.onload = function () {
         });
     }
 
-    function downloadCSV() {
-        var csvData = [];
-        var headers = ['NOMBRE', 'ACTIVIDAD', 'DOMICILIO', 'TELEFONO', 'SECTOR'];
-        csvData.push(headers.join(','));
-
-        geojsonLayer.eachLayer(function (layer) {
-            var properties = layer.feature.properties;
-            var row = [
-                properties.NOMBRE,
-                properties.ACTIVIDAD,
-                properties.DOMICILIO,
-                properties.TELEFONO,
-                properties.SECTOR
-            ];
-            csvData.push(row.join(','));
-        });
-
-        var csvString = csvData.join('\n');
-        var blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
-        var link = document.createElement("a");
-        var url = URL.createObjectURL(blob);
-        link.setAttribute("href", url);
-        link.setAttribute("download", "Datos BC.csv");
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-
     loadGeoJSON();
 
     $('#consultar').on('click', function () {
@@ -137,7 +108,7 @@ window.onload = function () {
     });
 
     $('#download').on('click', function () {
-        downloadCSV();
+        window.location.href = 'datos.csv';
     });
 
     $('#search-box').on('input', function () {
