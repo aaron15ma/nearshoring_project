@@ -1,3 +1,5 @@
+var geojsonLayer; // Declaración global de geojsonLayer
+
 window.onload = function () {
     var basemap = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYWFyb24xNW1hIiwiYSI6ImNseDlodWwwMDEyNWkyaXB6OWduMGg2bXYifQ.icWNvciR1eZCYtMAyYzkrw', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -33,8 +35,6 @@ window.onload = function () {
             popupAnchor: [0, -50]
         });
     }
-
-    var geojsonLayer;
 
     function loadGeoJSON(filter = '') {
         if (geojsonLayer) {
@@ -107,42 +107,43 @@ window.onload = function () {
         loadGeoJSON();
     });
 
-    // Función para descargar el CSV
-    function downloadCSV() {
-        var csvData = [];
-        var headers = ['NOMBRE', 'ACTIVIDAD', 'DOMICILIO', 'TELEFONO', 'SECTOR'];
-        csvData.push(headers.join(','));
-
-        geojsonLayer.eachLayer(function (layer) {
-            var properties = layer.feature.properties;
-            var row = [
-                properties.NOMBRE,
-                properties.ACTIVIDAD,
-                properties.DOMICILIO,
-                properties.TELEFONO,
-                properties.SECTOR
-            ];
-            csvData.push(row.join(','));
-        });
-
-        var csvString = csvData.join('\n');
-        var blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
-        var link = document.createElement("a");
-        var url = URL.createObjectURL(blob);
-        link.setAttribute("href", url);
-        link.setAttribute("download", "Datos BC.csv");
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-
-    $('#download').on('click', function () {
-        downloadCSV();
-    });
+    $('#download').on('click', downloadCSV); // Asegúrate de que este evento esté aquí
 
     $('#search-box').on('input', function () {
         var searchFilter = $(this).val();
         loadGeoJSON(searchFilter);
     });
 };
+
+function downloadCSV() {
+    if (!geojsonLayer) {
+        console.error("geojsonLayer no está definido");
+        return;
+    }
+    var csvData = [];
+    var headers = ['NOMBRE', 'ACTIVIDAD', 'DOMICILIO', 'TELEFONO', 'SECTOR'];
+    csvData.push(headers.join(','));
+
+    geojsonLayer.eachLayer(function (layer) {
+        var properties = layer.feature.properties;
+        var row = [
+            properties.NOMBRE,
+            properties.ACTIVIDAD,
+            properties.DOMICILIO,
+            properties.TELEFONO,
+            properties.SECTOR
+        ];
+        csvData.push(row.join(','));
+    });
+
+    var csvString = csvData.join('\n');
+    var blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+    var link = document.createElement("a");
+    var url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", "Datos BC.csv");
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
