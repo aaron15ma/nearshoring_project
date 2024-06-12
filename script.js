@@ -1,14 +1,16 @@
 var geojsonLayer; // Declaración global de geojsonLayer
 
 window.onload = function () {
+    // Inicializar el mapa
+    var map = L.map('my-map').setView([30.0, -115.0], 7);
+
+    // Cargar el mapa base
     var basemap = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYWFyb24xNW1hIiwiYSI6ImNseDlodWwwMDEyNWkyaXB6OWduMGg2bXYifQ.icWNvciR1eZCYtMAyYzkrw', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         id: 'mapbox/streets-v11'
-    });
+    }).addTo(map);
 
-    var map = L.map('my-map').setView([30.0, -115.0], 7);
-    basemap.addTo(map);
-
+    // Función para obtener el icono basado en el sector
     function getIcon(sector) {
         var iconUrl;
         switch (sector) {
@@ -36,6 +38,7 @@ window.onload = function () {
         });
     }
 
+    // Función para cargar GeoJSON
     function loadGeoJSON(filter = '') {
         if (geojsonLayer) {
             map.removeLayer(geojsonLayer);
@@ -94,56 +97,60 @@ window.onload = function () {
         });
     }
 
+    // Cargar GeoJSON inicialmente
     loadGeoJSON();
 
+    // Evento para consultar con filtro
     $('#consultar').on('click', function () {
         var searchFilter = $('#search-box').val();
         loadGeoJSON(searchFilter);
     });
 
+    // Evento para resetear filtros
     $('#reset').on('click', function () {
         $('input[type="checkbox"]').prop('checked', true);
         $('#search-box').val('');
         loadGeoJSON();
     });
 
-    $('#download').on('click', downloadCSV); // Asegúrate de que este evento esté aquí
+    // Función para descargar CSV
+    function downloadCSV() {
+        var csvData = [];
+        var headers = ['NOMBRE', 'ACTIVIDAD', 'DOMICILIO', 'TELEFONO', 'SECTOR'];
+        csvData.push(headers.join(','));
 
+        geojsonLayer.eachLayer(function (layer) {
+            var properties = layer.feature.properties;
+            var row = [
+                properties.NOMBRE,
+                properties.ACTIVIDAD,
+                properties.DOMICILIO,
+                properties.TELEFONO,
+                properties.SECTOR
+            ];
+            csvData.push(row.join(','));
+        });
+
+        var csvString = csvData.join('\n');
+        var blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+        var link = document.createElement("a");
+        var url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", "Datos BC.csv");
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    // Evento para descargar CSV
+    $('#download').on('click', function () {
+        downloadCSV();
+    });
+
+    // Evento para buscar mientras se escribe
     $('#search-box').on('input', function () {
         var searchFilter = $(this).val();
         loadGeoJSON(searchFilter);
     });
 };
-
-function downloadCSV() {
-    if (!geojsonLayer) {
-        console.error("geojsonLayer no está definido");
-        return;
-    }
-    var csvData = [];
-    var headers = ['NOMBRE', 'ACTIVIDAD', 'DOMICILIO', 'TELEFONO', 'SECTOR'];
-    csvData.push(headers.join(','));
-
-    geojsonLayer.eachLayer(function (layer) {
-        var properties = layer.feature.properties;
-        var row = [
-            properties.NOMBRE,
-            properties.ACTIVIDAD,
-            properties.DOMICILIO,
-            properties.TELEFONO,
-            properties.SECTOR
-        ];
-        csvData.push(row.join(','));
-    });
-
-    var csvString = csvData.join('\n');
-    var blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
-    var link = document.createElement("a");
-    var url = URL.createObjectURL(blob);
-    link.setAttribute("href", url);
-    link.setAttribute("download", "Datos BC.csv");
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
